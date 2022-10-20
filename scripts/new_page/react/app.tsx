@@ -1,7 +1,7 @@
 import React from "react";
 
 function App() {
-  return <div>活动</div>;
+  return <div>React Template</div>;
 }
 
 export default App;
