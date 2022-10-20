@@ -3,6 +3,7 @@ const { Parcel } = require("@parcel/core");
 
 const PAGE_DIR = `${process.cwd()}/src/pages`;
 const DIST_DIR = `${process.cwd()}/dist`;
+const PARCELRC_PATH = `${process.cwd()}/.parcelrc`;
 
 async function archive() {
   const files = await fs.readdir(PAGE_DIR);
@@ -31,6 +32,10 @@ async function archive() {
   // 清空 dist 目录
   await fs.rm(DIST_DIR, { recursive: true, force: true });
 
+  // 临时移除 .parcelrc
+  const parcelrc = await fs.readFile(PARCELRC_PATH);
+  await fs.rm(PARCELRC_PATH);
+
   const bundler = new Parcel({
     entries: `${PAGE_DIR}/${page}/index.html`,
     defaultConfig: "@parcel/config-default",
@@ -40,6 +45,9 @@ async function archive() {
     },
   });
   await bundler.run();
+
+  // 恢复 .parcelrc
+  await fs.writeFile(PARCELRC_PATH, parcelrc);
 
   // 复制构建产物到 static
   await fs.cp(DIST_DIR, `${process.cwd()}/static/${page}`, { recursive: true });
