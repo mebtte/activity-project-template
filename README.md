@@ -1,5 +1,8 @@
 # activity-project-template
 
+大量活动页面持续性维护的解决方案
+https://mebtte.com/solution_of_maintaining_an_abundance_of_activity_pages_continually
+
 开发:
 
 ```sh
